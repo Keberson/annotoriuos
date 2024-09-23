@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import {Annotorious} from "@annotorious/react";
+
 
 import './index.css';
 import App from './App';
@@ -8,5 +10,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-    <App />
+    <Annotorious>
+        <App />
+    </Annotorious>
 );
