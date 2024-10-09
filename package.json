@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@annotorious/react": "^3.0.5",
+    "@annotorious/openseadragon": "^3.0.11",
+    "@annotorious/react": "^3.0.11",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^6.1.1",
@@ -39,5 +40,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/openseadragon": "^3.0.10",
+    "sass": "^1.79.4"
   }
 }
