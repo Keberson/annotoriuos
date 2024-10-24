@@ -71,7 +71,9 @@ const GalleryView: React.FC<GalleryViewProps> = ({ mode, tool }) => {
                     }}
                     className="openseadragon"
                 />
-                <OpenSeadragonAnnotationPopup popup={CommentPopup} />
+                <OpenSeadragonAnnotationPopup popup={props => (
+                    <CommentPopup {...props} />
+                )} />
             </OpenSeadragonAnnotator>
         </Flex>
     );

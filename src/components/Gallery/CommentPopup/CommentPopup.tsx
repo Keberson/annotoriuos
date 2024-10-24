@@ -9,7 +9,7 @@ const CommentPopup: React.FC<PopupProps> = (props) => {
     useEffect(() => {
         console.log('Comment renders - ', renderCount);
     }, [renderCount]);
-    // const [comment, setComment] = useState('');
+    const [comment, setComment] = useState('');
 
     // useEffect(() => {
     //     const commentBody = annotation.bodies.find(body => body.purpose === 'commenting');
