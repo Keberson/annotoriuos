@@ -8,7 +8,6 @@ import {
 } from "@annotorious/react";
 
 import CommentPopup from "../CommentPopup/CommentPopup";
-import useRenderCount from "../../../hooks/useRenderCount";
 import Loader from "../../Loader/Loader";
 import {Flex} from "antd";
 
@@ -20,7 +19,6 @@ interface GalleryViewProps {
 const GalleryView: React.FC<GalleryViewProps> = ({ mode, tool }) => {
     const annotator = useAnnotator<AnnotoriousOpenSeadragonAnnotator>();
     const annotations = useAnnotations();
-    const renderCount = useRenderCount();
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -42,10 +40,6 @@ const GalleryView: React.FC<GalleryViewProps> = ({ mode, tool }) => {
                 });
         }
     }, [annotator]);
-
-    useEffect(() => {
-        console.log('Render count of GalleryView - ', renderCount);
-    }, [renderCount]);
 
     // if (annotator) {
     //     annotator.on('clickAnnotation', (annotation) => {

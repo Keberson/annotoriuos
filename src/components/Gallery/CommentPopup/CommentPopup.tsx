@@ -1,44 +1,40 @@
 import React, {useEffect, useState} from "react";
 import {PopupProps} from "@annotorious/react";
-import useRenderCount from "../../../hooks/useRenderCount";
+import {Button, Flex, Input} from "antd";
 
+const { TextArea } = Input;
 
-const CommentPopup: React.FC<PopupProps> = (props) => {
-    const renderCount = useRenderCount();
-
-    useEffect(() => {
-        console.log('Comment renders - ', renderCount);
-    }, [renderCount]);
+const CommentPopup: React.FC<PopupProps> = ({ annotation, onCreateBody, onUpdateBody }) => {
     const [comment, setComment] = useState('');
 
-    // useEffect(() => {
-    //     const commentBody = annotation.bodies.find(body => body.purpose === 'commenting');
-    //     setComment(commentBody && commentBody.value ? commentBody.value : '');
-    // }, [annotation.bodies]);
+    useEffect(() => {
+        const commentBody = annotation.bodies.find(body => body.purpose === 'commenting');
+        setComment(commentBody && commentBody.value ? commentBody.value : '');
+    }, [annotation.bodies]);
 
-    // const onSave = () => {
-    //     const updated = {
-    //         purpose: 'commenting',
-    //         value: comment
-    //     };
-    //
-    //     const commentBody = annotation.bodies.find(body => body.purpose === 'commenting');
-    //     if (commentBody) {
-    //         onUpdateBody(commentBody, updated);
-    //     } else {
-    //         onCreateBody(updated);
-    //     }
-    // };
+    const onSave = () => {
+        const updated = {
+            purpose: 'commenting',
+            value: comment
+        };
+
+        const commentBody = annotation.bodies.find(body => body.purpose === 'commenting');
+        if (commentBody) {
+            onUpdateBody(commentBody, updated);
+        } else {
+            onCreateBody(updated);
+        }
+    };
 
     return (
-        <div>
-      <textarea
-          // value={comment}
-          // onChange={e => setComment(e.target.value)}
-      />
-
-            <button>Save</button>
-        </div>
+        <Flex vertical style={{ width: "300px", padding: "4px", gap: "5px" }}>
+            <TextArea
+                value={comment}
+                onChange={e => setComment(e.target.value)}
+                style={{ height: "50px", resize: "none" }}
+            />
+            <Button onClick={onSave} type="primary">Сохранить</Button>
+        </Flex>
     )
 
 }
