@@ -1,0 +1,29 @@
+[
+  {
+    "id": "d441ccbe-ad51-4d87-af05-0f1062fbf645",
+    "bodies": [],
+    "target": {
+      "annotation": "d441ccbe-ad51-4d87-af05-0f1062fbf645",
+      "selector": {
+        "type": "RECTANGLE",
+        "geometry": {
+          "bounds": {
+            "minX": 261.6630196936542,
+            "minY": 184.33260393873084,
+            "maxX": 852.5014484984468,
+            "maxY": 566.4761403085497
+          },
+          "x": 261.6630196936542,
+          "y": 184.33260393873084,
+          "w": 590.8384288047927,
+          "h": 382.1435363698189
+        }
+      },
+      "creator": {
+        "isGuest": true,
+        "id": "WK3D8olsx8YGfirDr_JD"
+      },
+      "created": "2024-10-11T10:45:58.937Z"
+    }
+  }
+]

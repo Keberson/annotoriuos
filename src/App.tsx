@@ -1,28 +1,26 @@
-import {
-    Annotorious,
-    OpenSeadragonAnnotator,
-    OpenSeadragonViewer
-} from '@annotorious/react';
+import React from "react";
+import {Layout} from "antd";
 
 import '@annotorious/react/annotorious-react.css';
-
 import './App.scss';
 
+import Gallery from "./components/Gallery/Gallery";
+
+const { Header, Content, Footer } = Layout;
+
 export default function App() {
+
     return (
-        <Annotorious>
-            <OpenSeadragonAnnotator>
-                <OpenSeadragonViewer
-                    options={{
-                        tileSources: {
-                            type: 'image',
-                            url: '/images/example.jpg',
-                        },
-                        prefixUrl: '/openseadragon-images/'
-                    }}
-                    className="openseadragon"
-                />
-            </OpenSeadragonAnnotator>
-        </Annotorious>
+        <Layout style={{ height: "100%" }}>
+            <Header style={{ height: "32px" }}>
+
+            </Header>
+            <Content>
+                <Gallery />
+            </Content>
+            <Footer style={{ height: "32px" }}>
+
+            </Footer>
+        </Layout>
     );
 }
