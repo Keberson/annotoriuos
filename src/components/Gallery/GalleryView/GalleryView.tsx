@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {
     AnnotoriousOpenSeadragonAnnotator,
     OpenSeadragonAnnotationPopup,
-    OpenSeadragonAnnotator,
+    OpenSeadragonAnnotator, OpenSeadragonAnnotatorProps,
     OpenSeadragonViewer, useAnnotations,
     useAnnotator
 } from "@annotorious/react";
@@ -10,6 +10,8 @@ import {
 import CommentPopup from "../CommentPopup/CommentPopup";
 import Loader from "../../Loader/Loader";
 import {Flex} from "antd";
+import {useAddAnnotationMutation, useGetAnnotationsByIdQuery} from "../../../services/annotations";
+import {useGetImageQuery} from "../../../services/images";
 
 interface GalleryViewProps {
     mode: "move" | "draw",
@@ -17,58 +19,45 @@ interface GalleryViewProps {
 }
 
 const GalleryView: React.FC<GalleryViewProps> = ({ mode, tool }) => {
+    const {data: annotations, isLoading: isLoadingAnnotations} = useGetAnnotationsByIdQuery('1');
+    const {data: image, isLoading: isLoadingImage} = useGetImageQuery('1'); 
     const annotator = useAnnotator<AnnotoriousOpenSeadragonAnnotator>();
-    const annotations = useAnnotations();
-    const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        console.log('Annotations ', annotations);
-    }, [annotations]);
+    const [addAnnotation] = useAddAnnotationMutation();
 
     useEffect(() => {
         if (annotator) {
-            setIsLoading(true);
-
-            annotator.loadAnnotations('/images/example_1.json')
-                .then(() => {
-                    setIsLoading(false);
-                    console.log('loaded', annotator.getAnnotations())
-                })
-                .catch(err => {
-                    setIsLoading(false);
-                    console.error('err', err)
+            if (annotations) {
+                annotations.annotations.forEach((annotation) => {
+                    annotator.addAnnotation(annotation.annotation);
                 });
+            }
         }
-    }, [annotator]);
-
-    // if (annotator) {
-    //     annotator.on('clickAnnotation', (annotation) => {
-    //         console.log('clicked', annotation);
-    //         const { maxX, minX, maxY, minY } = annotation.target.selector.geometry.bounds;
-    //     });
-    // }
+    }, [addAnnotation, annotations, annotator]);
 
     return (
         <Flex style={{ height: "100%", position: "relative" }}>
-            <Loader isSpin={isLoading} />
-            <OpenSeadragonAnnotator
-                drawingEnabled={mode === "draw"}
-                tool={tool}
-            >
-                <OpenSeadragonViewer
-                    options={{
-                        tileSources: {
-                            type: 'image',
-                            url: '/images/example.jpg',
-                        },
-                        prefixUrl: '/openseadragon-images/'
-                    }}
-                    className="openseadragon"
-                />
-                <OpenSeadragonAnnotationPopup popup={props => (
-                    <CommentPopup {...props} />
-                )} />
-            </OpenSeadragonAnnotator>
+            <Loader isSpin={isLoadingAnnotations && isLoadingImage} />
+            {
+                !isLoadingAnnotations && !isLoadingImage && image &&
+                    <OpenSeadragonAnnotator
+                        drawingEnabled={mode === "draw"}
+                        tool={tool}
+                    >
+                        <OpenSeadragonViewer
+                            options={{
+                                tileSources: {
+                                    type: 'image',
+                                    url: `data:image/png;base64,${image.image}`,
+                                },
+                                prefixUrl: '/openseadragon-images/'
+                            }}
+                            className="openseadragon"
+                        />
+                        <OpenSeadragonAnnotationPopup popup={props => (
+                            <CommentPopup {...props} />
+                        )} />
+                    </OpenSeadragonAnnotator>
+            }
         </Flex>
     );
 };
