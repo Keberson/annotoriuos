@@ -14,8 +14,16 @@ export const annotationApi = createApi({
         }),
         updateAnnotation: builder.mutation<void, IAddAnnotation>({
             query: ({ id, body }) => ({ url: `/${id}`, method: 'PUT', body: body }),
+        }),
+        deleteAnnotation: builder.mutation<void, IAddAnnotation>({
+            query: ({ id, body }) => ({ url: `/${id}`, method: 'DELETE', body: body }),
         })
     }),
 });
 
-export const { useGetAnnotationsByIdQuery, useAddAnnotationMutation, useUpdateAnnotationMutation } = annotationApi;
+export const {
+    useGetAnnotationsByIdQuery,
+    useAddAnnotationMutation,
+    useUpdateAnnotationMutation,
+    useDeleteAnnotationMutation
+} = annotationApi;
