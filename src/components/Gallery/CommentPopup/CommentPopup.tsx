@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {PopupProps} from "@annotorious/react";
 import {Button, Flex, Input} from "antd";
-import {useUpdateAnnotationMutation} from "../../../services/annotations";
 
 const { TextArea } = Input;
 
 const CommentPopup: React.FC<PopupProps> = ({ annotation, onCreateBody, onUpdateBody }) => {
     const [comment, setComment] = useState('');
-    const [updateAnnotation] = useUpdateAnnotationMutation();
 
     useEffect(() => {
         const commentBody = annotation.bodies.find(body => body.purpose === 'commenting');
@@ -27,10 +25,6 @@ const CommentPopup: React.FC<PopupProps> = ({ annotation, onCreateBody, onUpdate
         } else {
             onCreateBody(updated);
         }
-
-        console.log(annotation);
-
-        updateAnnotation({ body: annotation, id: 1 });
     };
 
     return (

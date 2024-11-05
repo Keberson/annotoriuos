@@ -13,3 +13,8 @@ export interface IAddAnnotation {
     body: ImageAnnotation
 }
 
+export interface IMultiSaveAnnotations {
+    id: number,
+    body: ImageAnnotation[]
+}
+

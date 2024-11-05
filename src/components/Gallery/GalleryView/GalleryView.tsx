@@ -11,12 +11,11 @@ import CommentPopup from "../CommentPopup/CommentPopup";
 import Loader from "../../Loader/Loader";
 import {Button, Flex} from "antd";
 import {
-    useAddAnnotationMutation,
+    useMultiSaveAnnotationsMutation,
     useDeleteAnnotationMutation,
     useGetAnnotationsByIdQuery
 } from "../../../services/annotations";
 import {useGetImageQuery} from "../../../services/images";
-import {Annotator} from "@annotorious/openseadragon";
 
 interface GalleryViewProps {
     mode: "move" | "draw",
@@ -29,7 +28,7 @@ const GalleryView: React.FC<GalleryViewProps> = ({ mode, tool }) => {
     const {data: annotations, isLoading: isLoadingAnnotations} = useGetAnnotationsByIdQuery('1');
     const {data: image, isLoading: isLoadingImage} = useGetImageQuery('1'); 
     const annotator = useAnnotator<AnnotoriousOpenSeadragonAnnotator>();
-    const [addAnnotation] = useAddAnnotationMutation();
+    const [multiSaveAnnotations] = useMultiSaveAnnotationsMutation();
     const [deleteAnnotation] = useDeleteAnnotationMutation();
 
     useEffect(() => {
@@ -40,7 +39,7 @@ const GalleryView: React.FC<GalleryViewProps> = ({ mode, tool }) => {
                 });
             }
         }
-    }, [addAnnotation, annotations, annotator]);
+    }, [annotations, annotator]);
 
     if (annotator) {
         annotator.on('selectionChanged', (annotations) => {
@@ -61,17 +60,27 @@ const GalleryView: React.FC<GalleryViewProps> = ({ mode, tool }) => {
             setCurrentAnnotation(null);
             setIsNoSelect(true);
         }
+    };
+
+    const onSave = async () => {
+        await multiSaveAnnotations({ body: annotator.getAnnotations(), id: 1 });
     }
 
     return (
         <Flex style={{ height: "100%", position: "relative" }}>
-            <Flex style={{ position: "absolute", right: 5, bottom: 5, zIndex: 999 }}>
+            <Flex style={{ position: "absolute", right: 5, bottom: 5, zIndex: 999, gap: 8 }}>
                 <Button
                     type="primary"
                     disabled={isNoSelect}
                     onClick={onDelete}
                 >
                     Удалить
+                </Button>
+                <Button
+                    type="primary"
+                    onClick={onSave}
+                >
+                    Сохрнаить
                 </Button>
             </Flex>
             <Loader isSpin={isLoadingAnnotations && isLoadingImage} />
