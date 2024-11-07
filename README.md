@@ -1,46 +1,56 @@
-# Getting Started with Create React App
+# Проект Анноториус
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Данный проект направлен на изучение библиотеки `annotorious` с использованием `open-sea-dragon`.
 
-## Available Scripts
+Клиентская часть приложения взаимодействует с серверной по средству REST API. 
+Адрес к серверной части указаны в файлах папки ```services```. 
+Для взаимодействия использовалась библиотека ```RTK```, которая позволяла упростить работу с запросами.
 
-In the project directory, you can run:
+### Используемые API:
+```
+GET /api/annotations
+POST /api/annotations/{id}?multiSave=true/false
+PUT /api/annotations/{id}
+DELETE /api/annotations/{id}
 
-### `npm start`
+GET /api/images
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Аннотации получаются и отправляются в качестве _JSON_.
+Изображения получаются с сервера в формате _base64 строки_. 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Возможности:
+- подгружать полученное изображение,
+- подгружать уже имеющиеся аннотации,
+- создавать новые аннотации в различных формах - прямоугольник и полигон,
+- удалять аннотации,
+- комментировать аннотации,
+- изменять аннотации.
 
-### `npm test`
+### Проблемы
+#### _Проблема с комментариями к аннотациям_
+_Описание проблемы:_ при нажатии на аннотацию появлялась ошибка из-за множественного рендера
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+_Решение проблемы:_ из-за неправильной документации неправильно использовался компонент, 
+разработчик согласился с тем, что была проблема с документацией ([Ссылка на дискуссию](https://github.com/orgs/annotorious/discussions/453))
 
-### `npm run build`
+### _Проблема с автоматическим отправлением аннотаций после её добавления_
+_Описание проблемы:_ сразу после добавления аннотации была попытка добавить отправку аннотации на сервер, 
+в базе данных создавалось несколько копий одной и той же аннотации
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+_Решение проблемы:_ из-за множественного рендера данная проблема была решена обходным путем -
+добавил кнопку сохранить, которая отправляет текущий список аннотаций с комментариями на сервер, 
+сервер в свою очередь обрабатывает их и проверяет на существование в базе данных, и решает добавлять или изменять аннотацию
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### _Проблема с автоматическим сохранением комментария после_
+_Описание проблемы:_ при изменении комментария и нажатия кнопки "Сохранить" на сервере не изменялся комментарий
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+_Решение проблемы:_ проблема была решена обходным путем - добавление общей кнопки сохранить, описанная в прошлом пункте
 
-### `npm run eject`
+### Схема компонентов
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![Схема компонентов](/docs/schema.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Видео демонстрация
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+<img src='https://github.com/Keberson/annotoriuos/blob/project/docs/video.gif?raw=true' alt="Демонстрация работы"/>
