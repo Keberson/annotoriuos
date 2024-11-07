@@ -53,4 +53,4 @@ _Решение проблемы:_ проблема была решена обх
 
 ### Видео демонстрация
 
-<img src='https://github.com/Keberson/annotoriuos/blob/project/docs/video.gif?raw=true' alt="Демонстрация работы"/>
+<img src='https://github.com/Keberson/annotoriuos/blob/master/docs/video.gif?raw=true' alt="Демонстрация работы"/>
